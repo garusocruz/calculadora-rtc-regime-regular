@@ -37,9 +37,7 @@ from calculadora_rtc_regime_regular.pedagio import (
     pedagio_com_banco,
 )
 
-_BANCO_OFICIAL = Path(
-    "/home/garusotec/projects/lynko/libs/calculadora-rtc-regime-regular/.cache/oficial/java/calculadora/db/calculadora-pro.db"
-)
+_BANCO_OFICIAL = Path(os.environ["CALC_DB"])
 _CACHE = Path(__file__).resolve().parents[1] / ".cache/oficial/java/src/test/resources"
 SEMENTE_ARREDONDAMENTO = 20261117
 MUNICIPIOS_ARREDONDAMENTO = [

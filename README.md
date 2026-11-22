@@ -1,30 +1,27 @@
 # calculadora-rtc-regime-regular
 
-**Nossas** — esta releitura em Python. MIT, Copyright (c) 2026 Garuso Cruz.
+Cálculo de CBS, IBS e Imposto Seletivo do regime regular, em Python. É uma releitura da calculadora Java da Receita Federal, validada contra a suíte de testes dela no commit pinado. Não é um fork: o código Java não entra neste repositório.
+
+**Nossas** (esta releitura em Python, MIT, Copyright (c) 2026 Garuso Cruz)
 
 [![versão 0.1.0](https://img.shields.io/badge/vers%C3%A3o-0.1.0-blue)](https://github.com/garusocruz/calculadora-rtc-regime-regular)
 [![nossa licença MIT](https://img.shields.io/badge/nossa%20licen%C3%A7a-MIT%20Garuso%20Cruz-green)](LICENSE)
 [![cobertura Python 93,82%](https://img.shields.io/badge/cobertura%20Python-93%2C82%25-brightgreen)](#ultima-validacao)
-[![Cloud Build equivalência](https://img.shields.io/badge/Cloud%20Build-equival%C3%AAncia-1a73e8?logo=googlecloud&logoColor=white)](cloudbuild.yaml)
+[![Cloud Build: cloudbuild.yaml, sem trigger](https://img.shields.io/badge/Cloud%20Build-cloudbuild.yaml%2C%20sem%20trigger-lightgrey?logo=googlecloud&logoColor=white)](cloudbuild.yaml)
 
-**Do pin oficial** — a calculadora Java `f1eebd7`. MIT, Copyright (c) 2026 Receita Federal do Brasil. Não é a licença desta lib.
+**Do pin oficial** (calculadora Java da Receita Federal, commit `f1eebd7`, MIT, Copyright (c) 2026 Receita Federal do Brasil)
 
 [![pin oficial f1eebd7](https://img.shields.io/badge/pin%20oficial-f1eebd7-orange)](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular/commit/f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4)
 [![licença do pin MIT](https://img.shields.io/badge/licen%C3%A7a%20do%20pin-MIT%20Receita%20Federal-blue)](LICENSE-RECEITA.md)
 [![cobertura Java do pin 86,70%](https://img.shields.io/badge/cobertura%20Java%20do%20pin-86%2C70%25-green)](#ultima-validacao)
 
-Releitura em Python da calculadora oficial em Java da Receita Federal. Não é um fork: o código Java não entra neste repositório. O cálculo segue o commit pinado abaixo.
+As duas coberturas medem unidades diferentes: a nossa conta sentenças Python (mínimo 80%) e a do pin conta linhas Java no JaCoCo (mínimo oficial 80%). O detalhe está em [Última validação](#ultima-validacao).
 
 | | |
 | --- | --- |
 | Fonte oficial | [ReceitaFederal/calculadora-rtc-regime-regular](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular) |
 | Commit pinado | [`f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4`](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular/commit/f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4) |
-| Nossa licença | MIT, Copyright (c) 2026 Garuso Cruz — [LICENSE](LICENSE) |
-| Licença do pin oficial | MIT, Copyright (c) 2026 Receita Federal do Brasil — [LICENSE-RECEITA.md](LICENSE-RECEITA.md) |
-| Cobertura desta lib | 93,82% das sentenças Python |
-| Cobertura do pin | 86,70% das linhas Java |
-
-Esta biblioteca não emite nota, não assina XML e não chama a Sefin.
+| Licenças | [LICENSE](LICENSE) (nossa) e [LICENSE-RECEITA.md](LICENSE-RECEITA.md) (Receita, sobre o Java do pin) |
 
 ## Índice
 
@@ -36,9 +33,11 @@ Esta biblioteca não emite nota, não assina XML e não chama a Sefin.
 - [Consumo](#consumo)
 - [Licença](#licenca)
 
-A lib não sobe API. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`.
+## Fora do escopo
 
-O DANFSe não faz parte deste repositório nem do Java do regime regular. O PDF da NFS-e é o módulo Go `danfse-service`, em https://github.com/ReceitaFederal/calculadora-rtc-gerador-danfse, pin `8d79e6b2f7fad6375340afcb51c85ed370c64a14`.
+A lib não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O PyPI recebe só a versão de produção, no merge da `main`.
+
+O DANFSe também fica de fora. O PDF da NFS-e é o módulo Go `danfse-service`, em https://github.com/ReceitaFederal/calculadora-rtc-gerador-danfse, pin `8d79e6b2f7fad6375340afcb51c85ed370c64a14`.
 
 <a id="arquitetura"></a>
 
@@ -78,7 +77,7 @@ O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o F
 
 ## Equivalência
 
-O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O Cloud Build dispara o mesmo script pelo arquivo `cloudbuild.yaml`. Os triggers, no plano de delivery da fundação, são `calculadora-rtc-regime-regular-pr` (pull request para `main`) e `calculadora-rtc-regime-regular-main` (push em `main`). Não há workflow do GitHub Actions. O build não publica pacote.
+O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. A pull request para `main` dispara `calculadora-rtc-regime-regular-pr` e roda o mesmo script em `cloudbuild.yaml`. Esse build não publica. O merge dispara `calculadora-rtc-regime-regular-main`, repete a equivalência em `cloudbuild-prod.yaml` e publica no PyPI a versão do `pyproject.toml`. Se essa versão já estiver no PyPI, o build não publica de novo. Não há workflow do GitHub Actions. Os triggers ainda não estão aplicados.
 
 ```bash
 export PATH="${HOME}/.local/bin:${HOME}/.asdf/shims:${PATH}"
@@ -105,9 +104,7 @@ O surefire grava o `@DisplayName` como `classname` e acrescenta `(Tipo)` no mét
 
 ## Última validação
 
-Data: 22 de novembro de 2026. O repositório é https://github.com/garusocruz/calculadora-rtc-regime-regular. O check remoto ainda é o script local. O Cloud Build grava o status quando o plano de delivery da fundação estiver aplicado.
-
-O `scripts/hooks/pre-push.sh` completo, log em `.cache/pre-push.log`, terminou `pre-push OK`.
+Data: 22 de novembro de 2026. Sem trigger do Cloud Build, a única verificação é o script local: o `scripts/hooks/pre-push.sh` completo, com saída salva em `.cache/pre-push.log`, terminou em `pre-push OK`.
 
 | Checagem | Saída |
 | --- | --- |
@@ -129,7 +126,7 @@ Depois desse log, os testes de arquitetura passaram a contar no corte. A compara
 
 A Receita não aceita pull request externo. O acompanhamento é a inscrição no repositório oficial, em Watch, com Issues, Releases e Security alerts. Pull requests e Discussions ficam desligados.
 
-Os três pins oficiais estão em `lynko-workspace/initiatives/faturae/receita-rtc-pins.json`. O deste repositório também é o padrão `OFICIAL_SHA` de `scripts/equivalencia.sh`.
+Os três pins oficiais (regime regular, Simples e DANFSe) estão em `lynko-workspace/initiatives/faturae/receita-rtc-pins.json`, no repositório interno da Lynko. O deste repositório também é o padrão `OFICIAL_SHA` de `scripts/equivalencia.sh`.
 
 Quando sai um release, um alerta de segurança ou uma issue que muda regra:
 
@@ -138,8 +135,9 @@ Quando sai um release, um alerta de segurança ou uma issue que muda regra:
 3. Rodar `bash scripts/hooks/pre-push.sh`.
 4. Cada nome que faltar é um serviço que o controller Java chama. Portar esse serviço. A fachada em `consumo.py` conserva a classe e o método Java. Por dentro, a função nova fica em snake_case.
 5. Repetir o gancho até `pre-push OK`.
+6. Igualar a versão do `pyproject.toml` à versão de produção e abrir a pull request para `main`. O merge publica só esse pacote no PyPI.
 
-Não se recoloca esse cálculo em `backends/faturae`. Não se publica em Artifact Registry nem em Cloud Build da Lynko.
+Não se recoloca esse cálculo em `backends/faturae`. Não se publica no Artifact Registry. Não se publica pacote de rc.
 
 <a id="instalacao"></a>
 
@@ -197,11 +195,11 @@ Consulta que lê o banco, como `DadosAbertosService`, precisa de `CALC_DB`. Sem 
 
 ## Licença
 
-Esta lib é uma releitura em Python. O código Java oficial não é copiado para este git. A licença dele vale para a obra da Receita e fica reproduzida aqui para o aviso de copyright.
+O código Java oficial não é copiado para este git. A licença dele vale para a obra da Receita e fica reproduzida aqui para o aviso de copyright.
 
 | Obra | Licença | Arquivo |
 | --- | --- | --- |
 | Esta releitura em Python | MIT, Copyright (c) 2026 Garuso Cruz | [LICENSE](LICENSE) |
 | Calculadora Java da Receita Federal, commit `f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4` | MIT, Copyright (c) 2026 Receita Federal do Brasil | [LICENSE-RECEITA.md](LICENSE-RECEITA.md) |
 
-O texto MIT da Receita exige que o aviso de copyright e a permissão acompanhem cópias substanciais daquela obra. A releitura conserva esse aviso. Não substitui a licença desta lib.
+O texto MIT da Receita exige que o aviso de copyright e a permissão acompanhem cópias substanciais daquela obra. A releitura conserva esse aviso, e a licença desta lib continua sendo a MIT de Garuso Cruz.
