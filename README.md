@@ -4,7 +4,7 @@ Cálculo de CBS, IBS e Imposto Seletivo do regime regular, em Python. É uma rel
 
 **Nossas** (esta releitura em Python, MIT, Copyright (c) 2026 Garuso Cruz)
 
-[![versão 0.3.0](https://img.shields.io/badge/vers%C3%A3o-0.3.0-blue)](https://github.com/garusocruz/calculadora-rtc-regime-regular)
+[![versão 0.3.1](https://img.shields.io/badge/vers%C3%A3o-0.3.1-blue)](https://github.com/garusocruz/calculadora-rtc-regime-regular)
 [![nossa licença MIT](https://img.shields.io/badge/nossa%20licen%C3%A7a-MIT%20Garuso%20Cruz-green)](LICENSE)
 [![cobertura Python 93,82%](https://img.shields.io/badge/cobertura%20Python-93%2C82%25-brightgreen)](#ultima-validacao)
 [![Cloud Build: cloudbuild.yaml, sem trigger](https://img.shields.io/badge/Cloud%20Build-cloudbuild.yaml%2C%20sem%20trigger-lightgrey?logo=googlecloud&logoColor=white)](cloudbuild.yaml)
