@@ -1,10 +1,17 @@
 # calculadora-rtc-regime-regular
 
+**Nossas** — esta releitura em Python. MIT, Copyright (c) 2026 Garuso Cruz.
+
 [![versão 0.1.0](https://img.shields.io/badge/vers%C3%A3o-0.1.0-blue)](https://github.com/garusocruz/calculadora-rtc-regime-regular)
-[![pin oficial f1eebd7](https://img.shields.io/badge/pin%20oficial-f1eebd7-orange)](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular/commit/f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4)
+[![nossa licença MIT](https://img.shields.io/badge/nossa%20licen%C3%A7a-MIT%20Garuso%20Cruz-green)](LICENSE)
+[![cobertura Python 93,82%](https://img.shields.io/badge/cobertura%20Python-93%2C82%25-brightgreen)](#ultima-validacao)
 [![Cloud Build equivalência](https://img.shields.io/badge/Cloud%20Build-equival%C3%AAncia-1a73e8?logo=googlecloud&logoColor=white)](cloudbuild.yaml)
-[![licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
-[![Java oficial MIT](https://img.shields.io/badge/Java%20oficial-MIT%20Receita%20Federal-blue)](LICENSE-RECEITA.md)
+
+**Do pin oficial** — a calculadora Java `f1eebd7`. MIT, Copyright (c) 2026 Receita Federal do Brasil. Não é a licença desta lib.
+
+[![pin oficial f1eebd7](https://img.shields.io/badge/pin%20oficial-f1eebd7-orange)](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular/commit/f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4)
+[![licença do pin MIT](https://img.shields.io/badge/licen%C3%A7a%20do%20pin-MIT%20Receita%20Federal-blue)](LICENSE-RECEITA.md)
+[![cobertura Java do pin 86,70%](https://img.shields.io/badge/cobertura%20Java%20do%20pin-86%2C70%25-green)](#ultima-validacao)
 
 Releitura em Python da calculadora oficial em Java da Receita Federal. Não é um fork: o código Java não entra neste repositório. O cálculo segue o commit pinado abaixo.
 
@@ -12,8 +19,10 @@ Releitura em Python da calculadora oficial em Java da Receita Federal. Não é u
 | --- | --- |
 | Fonte oficial | [ReceitaFederal/calculadora-rtc-regime-regular](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular) |
 | Commit pinado | [`f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4`](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular/commit/f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4) |
-| Licença do Java | MIT, Copyright (c) 2026 Receita Federal do Brasil — [LICENSE-RECEITA.md](LICENSE-RECEITA.md) |
-| Licença desta lib | MIT, Copyright (c) 2026 Garuso Cruz — [LICENSE](LICENSE) |
+| Nossa licença | MIT, Copyright (c) 2026 Garuso Cruz — [LICENSE](LICENSE) |
+| Licença do pin oficial | MIT, Copyright (c) 2026 Receita Federal do Brasil — [LICENSE-RECEITA.md](LICENSE-RECEITA.md) |
+| Cobertura desta lib | 93,82% das sentenças Python |
+| Cobertura do pin | 86,70% das linhas Java |
 
 Esta biblioteca não emite nota, não assina XML e não chama a Sefin.
 
@@ -104,7 +113,8 @@ O `scripts/hooks/pre-push.sh` completo, log em `.cache/pre-push.log`, terminou `
 | --- | --- |
 | Maven test | a suíte Java do pin passou |
 | Pytest | 1758 passaram, 6 ignorados, 32,80 s |
-| Cobertura | 93,82% de 6506 sentenças. O mínimo é 80% |
+| Cobertura Python | 93,82% de 6506 sentenças. O mínimo desta lib é 80% |
+| Cobertura Java do pin | 86,70% de 5097 linhas (4419 cobertas). JaCoCo do `mvn test` daquele commit, sem a classe `*Application`, como no `pom.xml` oficial. O workflow oficial exige 80% de linhas |
 | Java no corte daquele momento | 672 unitários, 344 e2e |
 | Python no relatório | 3079 chaves |
 | Sem par | 0 |
