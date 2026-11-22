@@ -35,7 +35,7 @@ As duas coberturas medem unidades diferentes: a nossa conta sentenças Python (m
 
 ## Fora do escopo
 
-A lib não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O PyPI recebe só a versão de produção, na tag `vX.Y.Z`.
+A lib não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O PyPI recebe só a versão de produção, no merge da `main`.
 
 O DANFSe também fica de fora. O PDF da NFS-e é o módulo Go `danfse-service`, em https://github.com/ReceitaFederal/calculadora-rtc-gerador-danfse, pin `8d79e6b2f7fad6375340afcb51c85ed370c64a14`.
 
@@ -77,7 +77,7 @@ O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o F
 
 ## Equivalência
 
-O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O `cloudbuild.yaml` roda o mesmo script. O único trigger é `calculadora-rtc-regime-regular-prod`, na tag `vX.Y.Z`. Essa tag é a versão de produção: roda a equivalência e publica só esse pacote no PyPI. Não há trigger de pull request nem de push na `main`. Não há workflow do GitHub Actions. O trigger ainda não está aplicado.
+O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. A pull request para `main` dispara `calculadora-rtc-regime-regular-pr` e roda o mesmo script em `cloudbuild.yaml`. Esse build não publica. O merge dispara `calculadora-rtc-regime-regular-main`, repete a equivalência em `cloudbuild-prod.yaml` e publica no PyPI a versão do `pyproject.toml`. Se essa versão já estiver no PyPI, o build não publica de novo. Não há workflow do GitHub Actions. Os triggers ainda não estão aplicados.
 
 ```bash
 export PATH="${HOME}/.local/bin:${HOME}/.asdf/shims:${PATH}"
@@ -135,9 +135,9 @@ Quando sai um release, um alerta de segurança ou uma issue que muda regra:
 3. Rodar `bash scripts/hooks/pre-push.sh`.
 4. Cada nome que faltar é um serviço que o controller Java chama. Portar esse serviço. A fachada em `consumo.py` conserva a classe e o método Java. Por dentro, a função nova fica em snake_case.
 5. Repetir o gancho até `pre-push OK`.
-6. Igualar a versão do `pyproject.toml` à versão de produção e criar a tag `vX.Y.Z`. Essa tag publica só esse pacote no PyPI.
+6. Igualar a versão do `pyproject.toml` à versão de produção e abrir a pull request para `main`. O merge publica só esse pacote no PyPI.
 
-Não se recoloca esse cálculo em `backends/faturae`. Não se publica no Artifact Registry. Não se publica pacote de rc nem a cada push.
+Não se recoloca esse cálculo em `backends/faturae`. Não se publica no Artifact Registry. Não se publica pacote de rc.
 
 <a id="instalacao"></a>
 
