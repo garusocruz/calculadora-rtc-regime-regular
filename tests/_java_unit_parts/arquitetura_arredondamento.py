@@ -19,8 +19,4 @@ JAVA_UNIT_IDENTITY: dict[str, tuple[str, str]] = {
         _FQCN_COPIA,
         "classe_eACopiaUnicaDosDoisProjetos",
     ),
-    f"{_MOD}::test_testeDaClasse_eACopiaUnicaDosDoisProjetos": (
-        _FQCN_COPIA,
-        "testeDaClasse_eACopiaUnicaDosDoisProjetos",
-    ),
 }
