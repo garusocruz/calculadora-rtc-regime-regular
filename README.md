@@ -67,7 +67,7 @@ O surefire grava o `@DisplayName` como `classname` e acrescenta `(Tipo)` no mét
 
 ## Última validação
 
-Data: 22 de novembro de 2026. O check remoto ainda é o script local. O Cloud Build passa a gravar o status quando o plano de delivery estiver aplicado e o repositório `garusocruz/calculadora-rtc-regime-regular` existir.
+Data: 22 de novembro de 2026. O repositório é https://github.com/garusocruz/calculadora-rtc-regime-regular. O check remoto ainda é o script local. O Cloud Build grava o status quando o plano de delivery da fundação estiver aplicado.
 
 O `scripts/hooks/pre-push.sh` completo, log em `.cache/pre-push.log`, terminou `pre-push OK`.
 
