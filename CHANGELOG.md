@@ -20,3 +20,4 @@ A `0.1.0` ficou fixada na `main` (`1b29594`) e o número não andou. A `0.3.0` l
 - Publica no PyPI e não no Artifact Registry.
 - Comenta a pull request com o resultado do build.
 - Documenta o fluxo de publicação e do comentário.
+- Instala o Python no passo que comenta a pull request.
