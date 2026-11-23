@@ -23,6 +23,7 @@ As duas coberturas medem unidades diferentes: a nossa conta sentenças Python (m
 | --- | --- |
 | Fonte oficial | [ReceitaFederal/calculadora-rtc-regime-regular](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular) |
 | Commit pinado | [`f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4`](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular/commit/f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4) |
+| Versão oficial do pin | CalculadorTributo `1.7.2`, commit de 2026-11-19 |
 | Licenças | [LICENSE](LICENSE) (nossa) e [LICENSE-RECEITA.md](LICENSE-RECEITA.md) (Receita, sobre o Java do pin) |
 
 ## Índice
@@ -38,7 +39,7 @@ As duas coberturas medem unidades diferentes: a nossa conta sentenças Python (m
 
 ## Fora do escopo
 
-A lib não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O índice público do PyPI tem a `0.3.0`. O número deste repositório não vira release no GitHub.
+A lib não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O índice público do PyPI tem a `0.4.1`. O número deste repositório não vira release no GitHub.
 
 O DANFSe também fica de fora. O PDF da NFS-e é o módulo Go `danfse-service`, em https://github.com/ReceitaFederal/calculadora-rtc-gerador-danfse, pin `8d79e6b2f7fad6375340afcb51c85ed370c64a14`.
 
@@ -46,7 +47,7 @@ O DANFSe também fica de fora. O PDF da NFS-e é o módulo Go `danfse-service`, 
 
 ## Limite de uso
 
-A política numérica é a do pin: a conta interna é exata, cada número publicado é arredondado uma vez e esse número entra na conta seguinte. Só `arredondamento.py` arredonda. Quem chama informa base, alíquota e tratamento. O cálculo não cria alíquota.
+A política numérica é a do pin: a conta interna é exata, cada número publicado é arredondado uma vez e esse número entra na conta seguinte. Só `arredondamento.py` arredonda. O texto JSON entra com `Decimal`. A conta não usa `float`. Quem chama informa base, alíquota e tratamento. O cálculo não cria alíquota.
 
 O resultado depende do insumo, do `calculadora-pro.db` daquele pin e da cobertura da suíte. Uso em documento fiscal exige conferência independente. A publicação do código pela Receita não homologa esta implementação.
 
