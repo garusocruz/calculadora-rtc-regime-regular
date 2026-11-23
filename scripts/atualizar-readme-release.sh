@@ -62,9 +62,15 @@ git checkout -B main origin/main
 
 DATE="$(date -u +%Y-%m-%d)"
 python3 - README.md "${TAG}" "${MERGE_BUILD}" "${MERGE_URL}" "${DATE}" "${MERGE_SHA}" <<'PY'
-import pathlib, re, sys
+import json, pathlib, re, sys
 path, tag, build, url, date, sha = sys.argv[1:]
 ver = tag[1:] if tag.startswith("v") else tag
+release = json.loads(pathlib.Path("/tmp/gh-release-get.json").read_text(encoding="utf-8"))
+bloco = re.search(
+    r"<!-- ultima-validacao:start -->\n(.*?)\n<!-- ultima-validacao:end -->",
+    release.get("body") or "",
+    re.S,
+)
 text = pathlib.Path(path).read_text(encoding="utf-8")
 start = "<!-- release-runs:start -->"
 end = "<!-- release-runs:end -->"
@@ -101,6 +107,13 @@ text = re.sub(
     text,
     count=1,
 )
+if bloco:
+    ancora = '<a id="ultima-validacao"></a>'
+    proxima = '<a id="atualizacao-do-pin"></a>'
+    if ancora in text and proxima in text:
+        antes, resto = text.split(ancora, 1)
+        _, depois = resto.split(proxima, 1)
+        text = f"{antes}{ancora}\n\n{bloco.group(1).strip()}\n\n{proxima}{depois}"
 pathlib.Path(path).write_text(text, encoding="utf-8")
 PY
 
