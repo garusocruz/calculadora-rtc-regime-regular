@@ -4,10 +4,10 @@ Cálculo de CBS, IBS e Imposto Seletivo do regime regular, em Python. É uma rel
 
 **Nossas** (esta releitura em Python, MIT, Copyright (c) 2026 Garuso Cruz)
 
-[![versão 0.3.0](https://img.shields.io/badge/vers%C3%A3o-0.3.0-blue)](https://github.com/garusocruz/calculadora-rtc-regime-regular)
+[![PyPI 0.3.0](https://img.shields.io/pypi/v/calculadora-rtc-regime-regular)](https://pypi.org/project/calculadora-rtc-regime-regular/)
 [![nossa licença MIT](https://img.shields.io/badge/nossa%20licen%C3%A7a-MIT%20Garuso%20Cruz-green)](LICENSE)
 [![cobertura Python 93,82%](https://img.shields.io/badge/cobertura%20Python-93%2C82%25-brightgreen)](#ultima-validacao)
-[![Cloud Build: cloudbuild.yaml, sem trigger](https://img.shields.io/badge/Cloud%20Build-cloudbuild.yaml%2C%20sem%20trigger-lightgrey?logo=googlecloud&logoColor=white)](cloudbuild.yaml)
+[![Cloud Build CI](https://img.shields.io/badge/Cloud%20Build-CI-blue?logo=googlecloud&logoColor=white)](cloudbuild.yaml)
 
 **Do pin oficial** (calculadora Java da Receita Federal, commit `f1eebd7`, MIT, Copyright (c) 2026 Receita Federal do Brasil)
 
@@ -35,7 +35,7 @@ As duas coberturas medem unidades diferentes: a nossa conta sentenças Python (m
 
 ## Fora do escopo
 
-A lib não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O PyPI recebe só a versão de produção, no merge da `main`.
+A lib não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O índice público do PyPI tem a `0.3.0`. O número deste repositório não vira release no GitHub.
 
 O DANFSe também fica de fora. O PDF da NFS-e é o módulo Go `danfse-service`, em https://github.com/ReceitaFederal/calculadora-rtc-gerador-danfse, pin `8d79e6b2f7fad6375340afcb51c85ed370c64a14`.
 
@@ -77,7 +77,13 @@ O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o F
 
 ## Equivalência
 
-O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. A pull request para `main` dispara `calculadora-rtc-regime-regular-pr` e roda o mesmo script em `cloudbuild.yaml`. Esse build não publica. O merge dispara `calculadora-rtc-regime-regular-main`, repete a equivalência em `cloudbuild-prod.yaml` e publica no PyPI a versão do `pyproject.toml`. Se essa versão já estiver no PyPI, o build não publica de novo. Não há workflow do GitHub Actions. Os triggers ainda não estão aplicados.
+O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O CI é o Cloud Build, sem workflow do GitHub Actions. A pull request dispara `calculadora-rtc-regime-regular-pr`. O push na `main` dispara `calculadora-rtc-regime-regular-main`. Os dois rodam equivalência, quality gate, comentário e pipeline-gate. Nenhum dos dois publica.
+
+<!-- release-runs:start -->
+Ainda não há release `vX.Y.Z` neste fluxo. O índice público do PyPI tem a `0.3.0`, publicada antes, sem release no GitHub.
+<!-- release-runs:end -->
+
+A release no GitHub, com tag `vX.Y.Z` igual ao `pyproject.toml`, dispara `calculadora-rtc-regime-regular-release`. Esse build grava o run no bloco acima e só então publica no PyPI. Sem essa release, não há versão nova no índice nem no repositório.
 
 ```bash
 export PATH="${HOME}/.local/bin:${HOME}/.asdf/shims:${PATH}"
@@ -104,7 +110,7 @@ O surefire grava o `@DisplayName` como `classname` e acrescenta `(Tipo)` no mét
 
 ## Última validação
 
-Data: 22 de novembro de 2026. Sem trigger do Cloud Build, a única verificação é o script local: o `scripts/hooks/pre-push.sh` completo, com saída salva em `.cache/pre-push.log`, terminou em `pre-push OK`.
+Data: 22 de novembro de 2026. Os números abaixo são do `scripts/hooks/pre-push.sh` local, que terminou em `pre-push OK`. O Cloud Build repete esses gates na pull request e na `main`.
 
 | Checagem | Saída |
 | --- | --- |
@@ -135,7 +141,7 @@ Quando sai um release, um alerta de segurança ou uma issue que muda regra:
 3. Rodar `bash scripts/hooks/pre-push.sh`.
 4. Cada nome que faltar é um serviço que o controller Java chama. Portar esse serviço. A fachada em `consumo.py` conserva a classe e o método Java. Por dentro, a função nova fica em snake_case.
 5. Repetir o gancho até `pre-push OK`.
-6. Igualar a versão do `pyproject.toml` à versão de produção e abrir a pull request para `main`. O merge publica só esse pacote no PyPI.
+6. Gravar o número novo no `pyproject.toml`, abrir a pull request para `main` e, depois do merge, publicar a release `vX.Y.Z` no GitHub. Só essa release publica no PyPI e regrava o run no README.
 
 Não se recoloca esse cálculo em `backends/faturae`. Não se publica no Artifact Registry. Não se publica pacote de rc.
 
@@ -143,7 +149,13 @@ Não se recoloca esse cálculo em `backends/faturae`. Não se publica no Artifac
 
 ## Instalação
 
-Python 3.12 ou superior. Dependência de runtime: `lxml`.
+Python 3.12 ou superior. Dependência de runtime: `lxml`. O pacote público no PyPI é a `0.3.0`.
+
+```bash
+pip install calculadora-rtc-regime-regular
+```
+
+Para desenvolver a partir do clone:
 
 ```bash
 cd libs/calculadora-rtc-regime-regular

@@ -21,3 +21,12 @@ A `0.1.0` ficou fixada na `main` (`1b29594`) e o número não andou. A `0.3.0` l
 - Comenta a pull request com o resultado do build.
 - Documenta o fluxo de publicação e do comentário.
 - Instala o Python no passo que comenta a pull request.
+
+## 0.3.1
+
+A `0.3.0` ficou na `main` (`c954bd4`). Esta versão lista o que entrou depois.
+
+- Mostra `report-pr` e `pipeline-gate` no build da `main`, depois do publicar.
+- O comentário da pull request mergeada lista equivalência, quality gate e publicar.
+- O README aponta a `0.3.0` pública no PyPI e o CI do Cloud Build. Não há release no GitHub.
+- O push na `main` deixa de publicar. Só a release `vX.Y.Z` grava o run no README e publica no PyPI.
