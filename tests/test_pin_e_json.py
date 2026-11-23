@@ -8,6 +8,7 @@ from calculadora_rtc_regime_regular import (
     PIN_OFICIAL_VERSAO,
 )
 from calculadora_rtc_regime_regular.processamento_item import operacao_input_from_json_text
+from calculadora_rtc_regime_regular.versao_offline import VersaoOutput
 
 
 def test_pin_oficial_e_o_calculador_1_7_2() -> None:
@@ -21,3 +22,9 @@ def test_json_de_texto_preserva_decimal_que_o_float_perde() -> None:
         '{"itens":[{"baseCalculo": 1234567890123456789.25}]}'
     )
     assert operacao.itens[0].base_calculo == Decimal("1234567890123456789.25")
+
+
+def test_versao_remota_nao_guarda_float() -> None:
+    versao = VersaoOutput.from_json({"versaoDb": Decimal("1.25")})
+    assert versao.versao_db == "1.25"
+    assert not isinstance(versao.versao_db, float)

@@ -39,7 +39,7 @@ As duas coberturas medem unidades diferentes: a nossa conta sentenças Python (m
 
 ## Fora do escopo
 
-A lib não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O índice público do PyPI tem a `0.4.1`. O número deste repositório não vira release no GitHub.
+A fachada `consumo.py` não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. `xml_fiscal.py` gera e valida o XML do pin, sem assinatura e sem Sefin, e não entra nessa fachada. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O índice público do PyPI tem a `0.4.1`. O número deste repositório não vira release no GitHub.
 
 O DANFSe também fica de fora. O PDF da NFS-e é o módulo Go `danfse-service`, em https://github.com/ReceitaFederal/calculadora-rtc-gerador-danfse, pin `8d79e6b2f7fad6375340afcb51c85ed370c64a14`.
 
@@ -55,7 +55,8 @@ O resultado depende do insumo, do `calculadora-pro.db` daquele pin e da cobertur
 | --- | --- |
 | Casos da suíte Java do pin | comparados; ver [Última validação](#ultima-validacao) |
 | Arredondamento | uma vez, no número publicado, só em `arredondamento.py` |
-| API, nota, XML e HTTP | não |
+| API, nota e HTTP da fachada | não |
+| XML | `xml_fiscal.py` gera e valida; não assina e não chama a Sefin |
 | DANFSe | não |
 | Alíquota criada pela lib | não; quem chama informa base, alíquota e tratamento |
 | Parecer ou enquadramento tributário | não |
