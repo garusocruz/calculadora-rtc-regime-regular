@@ -29,4 +29,4 @@ A `0.3.0` ficou na `main` (`c954bd4`). Esta versão lista o que entrou depois.
 - Mostra `report-pr` e `pipeline-gate` no build da `main`, depois do publicar.
 - O comentário da pull request mergeada lista equivalência, quality gate e publicar.
 - O README aponta a `0.3.0` pública no PyPI e o CI do Cloud Build. Não há release no GitHub.
-- O push na `main`, com os gates verdes, grava esse build no README, publica no PyPI e abre a release `vX.Y.Z`.
+- O merge na `main` faz o build da lib. A release `vX.Y.Z` publica no PyPI com esse build e grava o run no README.
