@@ -2,7 +2,7 @@
 
 Org baseline: the same local hooks and Cloud Build gates as `libs/fast_flow`.
 
-This lib does not apply Terraform and does not publish to Artifact Registry. Triggers live in `lynko-terraform`. The pull request runs the gates and the equivalence suite. The merge to `main` repeats both and publishes the `pyproject.toml` version to PyPI.
+This lib does not apply Terraform and does not publish to Artifact Registry. Triggers live in `lynko-terraform`. The pull request runs the gates and the equivalence suite. The push to `main`, when those gates pass, records that build in the README, publishes the `pyproject.toml` version to PyPI and opens the GitHub release `vX.Y.Z`.
 
 ## Cloud Build
 
@@ -11,7 +11,7 @@ This lib does not apply Terraform and does not publish to Artifact Registry. Tri
 | `calculadora-rtc-regime-regular-pr` | `cloudbuild.yaml` | pull request to `main` |
 | `calculadora-rtc-regime-regular-main` | `cloudbuild-prod.yaml` | push to `main` |
 
-Na pull request: `equivalencia` → `quality-gates` → `report-pr` → `pipeline-gate`. Na main: `equivalencia` → `quality-gates` → `publicar` → `report-pr` → `pipeline-gate`.
+Na pull request: `equivalencia` → `quality-gates` → `report-pr` → `pipeline-gate`. Na main, com os gates verdes: `atualizar-readme` → `publicar` → `abrir-release`.
 
 ## Gates
 
