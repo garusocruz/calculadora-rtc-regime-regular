@@ -30,3 +30,12 @@ A `0.3.0` ficou na `main` (`c954bd4`). Esta versão lista o que entrou depois.
 - O comentário da pull request mergeada lista equivalência, quality gate e publicar.
 - O README aponta a `0.3.0` pública no PyPI e o CI do Cloud Build. Não há release no GitHub.
 - O push na `main` deixa de publicar. Só a release `vX.Y.Z` grava o run no README e publica no PyPI.
+
+## 0.4.0
+
+A `0.3.1` ficou na `main`. Esta versão cancela o Cloud Build anterior.
+
+- O primeiro passo da pull request e da `main` é `cancel-superseded-builds`.
+- Na `main`, esse passo vê o ambiente `main`. O rótulo `production` faria o script das libs pular.
+- A tag `vX.Y.Z` continua com `production` e não cancela outro build.
+- O merge na `main` faz o build da lib. Se a versão não tem release, abre `vX.Y.Z` com esse build. A tag publica no PyPI.
