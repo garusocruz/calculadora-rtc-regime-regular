@@ -50,6 +50,15 @@ A política numérica é a do pin: a conta interna é exata, cada número public
 
 O resultado depende do insumo, do `calculadora-pro.db` daquele pin e da cobertura da suíte. Uso em documento fiscal exige conferência independente. A publicação do código pela Receita não homologa esta implementação.
 
+| O que | Nesta versão |
+| --- | --- |
+| Casos da suíte Java do pin | comparados; ver [Última validação](#ultima-validacao) |
+| Arredondamento | uma vez, no número publicado, só em `arredondamento.py` |
+| API, nota, XML e HTTP | não |
+| DANFSe | não |
+| Alíquota criada pela lib | não; quem chama informa base, alíquota e tratamento |
+| Parecer ou enquadramento tributário | não |
+
 <a id="arquitetura"></a>
 
 ## Arquitetura
