@@ -80,7 +80,7 @@ O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o F
 O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O CI é o Cloud Build, sem workflow do GitHub Actions. A pull request dispara `calculadora-rtc-regime-regular-pr` e não publica. O push na `main` dispara `calculadora-rtc-regime-regular-main`. Depois do quality gate, o mesmo run faz o build da lib, grava o README com esse build e com esse run, publica no PyPI, abre a tag `vX.Y.Z` e abre a pull request que devolve o README para a `main`. O merge dessa pull request vê a versão já publicada e não repete o build.
 
 <!-- release-runs:start -->
-Ainda não há release `vX.Y.Z` neste fluxo. O índice público do PyPI tem a `0.3.0`, publicada antes, sem release no GitHub.
+Release `v0.4.0` em 2026-11-23. Build [`1003c9bd-2a03-435f-8d62-510d63c94645`](https://console.cloud.google.com/cloud-build/builds;region=us-central1/1003c9bd-2a03-435f-8d62-510d63c94645?project=lynko-508200) no commit `5f4f8aa76eac16a01fb26101fa1514bfbb45d6ba`.
 <!-- release-runs:end -->
 
 A tag `vX.Y.Z` dispara `calculadora-rtc-regime-regular-release`. Esse passo não publica de novo: confere o README e que o PyPI já tem a versão gravada no bloco acima.
