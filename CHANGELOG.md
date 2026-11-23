@@ -39,3 +39,10 @@ A `0.3.1` ficou na `main`. Esta versão cancela o Cloud Build anterior.
 - Na `main`, esse passo vê o ambiente `main`. O rótulo `production` faria o script das libs pular.
 - A tag `vX.Y.Z` continua com `production` e não cancela outro build.
 - O merge na `main` faz o build da lib. Se a versão não tem release, abre `vX.Y.Z` com esse build. A tag publica no PyPI.
+
+## 0.4.2
+
+A `0.4.1` ficou na `main` e no PyPI. Esta versão deixa escrito que a lib não é produto da Receita.
+
+- O README diz que não é projeto oficial, homologado ou certificado.
+- A suíte do pin não substitui a legislação nem cenário que ela não executa.
