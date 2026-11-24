@@ -39,7 +39,7 @@ As duas coberturas medem unidades diferentes: a nossa conta sentenças Python (m
 
 ## Fora do escopo
 
-A fachada `consumo.py` não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. `xml_fiscal.py` gera e valida o XML do pin, sem assinatura e sem Sefin, e não entra nessa fachada. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O índice público do PyPI tem a `0.4.1`. A release `v0.4.1` é essa versão no GitHub.
+A fachada `consumo.py` não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. `xml_fiscal.py` gera e valida o XML do pin, sem assinatura e sem Sefin, e não entra nessa fachada. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O índice público do PyPI tem a `0.4.2`. A release `v0.4.1` é essa versão no GitHub.
 
 O DANFSe também fica de fora. O PDF da NFS-e é o módulo Go `danfse-service`, em https://github.com/ReceitaFederal/calculadora-rtc-gerador-danfse, pin `8d79e6b2f7fad6375340afcb51c85ed370c64a14`.
 
@@ -106,8 +106,8 @@ O gancho compara o estado do JUnit (passou ou falhou) com o pytest do mesmo caso
 O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O CI é o Cloud Build, sem workflow do GitHub Actions. A pull request dispara `calculadora-rtc-regime-regular-pr` e não publica. O push na `main` dispara `calculadora-rtc-regime-regular-main`. Depois do quality gate, o mesmo run faz o build da lib, grava o README com esse build e com esse run, publica no PyPI, abre a tag `vX.Y.Z` e abre a pull request que devolve o README para a `main`. O merge dessa pull request vê a versão já publicada e não repete o build.
 
 <!-- release-runs:start -->
-Release `v0.4.1` em 2026-11-23. Build [`f13fed49-e3dc-4837-97aa-0856fddd4e8e`](https://console.cloud.google.com/cloud-build/builds;region=us-central1/f13fed49-e3dc-4837-97aa-0856fddd4e8e?project=lynko-508200) no commit `6349c5f9bc996d926fda0f968ba15572824aa280`.
-Pacote deste run: `calculadora_rtc_regime_regular-0.4.1.tar.gz` e `calculadora_rtc_regime_regular-0.4.1-py3-none-any.whl`.
+Release `v0.4.2` em 2026-11-24. Build [`e9a1e0cd-70ec-4d20-ae4f-cc65f935083e`](https://console.cloud.google.com/cloud-build/builds;region=us-central1/e9a1e0cd-70ec-4d20-ae4f-cc65f935083e?project=lynko-508200) no commit `eee3363612f7f16d8aa0e92d7a3525f1ea0aa452`.
+Pacote deste run: `calculadora_rtc_regime_regular-0.4.2.tar.gz` e `calculadora_rtc_regime_regular-0.4.2-py3-none-any.whl`.
 <!-- release-runs:end -->
 
 A tag `vX.Y.Z` dispara `calculadora-rtc-regime-regular-release`. Esse passo não publica de novo: confere o README e que o PyPI já tem a versão gravada no bloco acima.
@@ -137,19 +137,19 @@ O surefire grava o `@DisplayName` como `classname` e acrescenta `(Tipo)` no mét
 
 ## Última validação
 
-Data: 23 de novembro de 2026. Os números abaixo são do Cloud Build [`f13fed49-e3dc-4837-97aa-0856fddd4e8e`](https://console.cloud.google.com/cloud-build/builds;region=us-central1/f13fed49-e3dc-4837-97aa-0856fddd4e8e?project=lynko-508200), o run que validou esta versão.
+Data: 24 de novembro de 2026. Os números abaixo são do Cloud Build [`e9a1e0cd-70ec-4d20-ae4f-cc65f935083e`](https://console.cloud.google.com/cloud-build/builds;region=us-central1/e9a1e0cd-70ec-4d20-ae4f-cc65f935083e?project=lynko-508200), o run que validou esta versão.
 
 | Checagem | Saída |
 | --- | --- |
 | Maven test | a suíte Java do pin passou |
-| Pytest | 1761 passaram, 6 ignorados, 61,10 s |
-| Cobertura Python | 94% de 6516 sentenças. O mínimo desta lib é 80% |
+| Pytest | 1765 passaram, 6 ignorados, 57,86 s |
+| Cobertura Python | 94% de 6538 sentenças. O mínimo desta lib é 80% |
 | Cobertura Java do pin | 86,70% de 5097 linhas (4419 cobertas). JaCoCo do `mvn test` daquele commit, sem a classe `*Application`, como no `pom.xml` oficial. O workflow oficial exige 80% de linhas |
 | Java no corte daquele run | 675 unitários, 344 e2e |
-| Python no relatório | 3085 chaves |
+| Python no relatório | 3093 chaves |
 | Sem par | 0 |
 | Resultado diferente | 0 |
-| Pacote deste run | `calculadora_rtc_regime_regular-0.4.1.tar.gz` e `calculadora_rtc_regime_regular-0.4.1-py3-none-any.whl` |
+| Pacote deste run | `calculadora_rtc_regime_regular-0.4.2.tar.gz` e `calculadora_rtc_regime_regular-0.4.2-py3-none-any.whl` |
 | Frase final | `Equivalência: a mesma suíte passou nas duas.` |
 
 <a id="atualizacao-do-pin"></a>
@@ -175,7 +175,7 @@ Não se recoloca esse cálculo em `backends/faturae`. Não se publica no Artifac
 
 ## Instalação
 
-Python 3.12 ou superior. Dependência de runtime: `lxml`. O pacote público no PyPI é a `0.4.1`.
+Python 3.12 ou superior. Dependência de runtime: `lxml`. O pacote público no PyPI é a `0.4.2`.
 
 ```bash
 pip install calculadora-rtc-regime-regular
