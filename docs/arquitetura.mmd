@@ -1,0 +1,25 @@
+flowchart TB
+  subgraph oficial ["Receita Federal — pin f1eebd7"]
+    javaSrc["Serviços Java"]
+    flyway["Flyway oficial"]
+    surefire["JUnit no surefire"]
+    javaSrc --> surefire
+    flyway --> db["calculadora-pro.db somente leitura"]
+    db --> surefire
+  end
+
+  subgraph lib ["Esta lib Python"]
+    fachada["consumo.py — nome Java"]
+    servico["serviços em snake_case"]
+    politica["arredondamento.py — única política numérica"]
+    fachada --> servico
+    servico --> politica
+    servico --> dbPy["mesmo calculadora-pro.db"]
+  end
+
+  db --> dbPy
+  surefire --> gate["scripts/equivalencia.sh"]
+  pytest["pytest com o nome classe.método"] --> gate
+  dbPy --> pytest
+
+  danfse["DANFSe em Go — fora desta lib"]

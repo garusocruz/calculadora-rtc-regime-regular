@@ -67,33 +67,7 @@ O resultado depende do insumo, do `calculadora-pro.db` daquele pin e da cobertur
 
 ## Arquitetura
 
-```mermaid
-flowchart TB
-  subgraph oficial ["Receita Federal — pin f1eebd7"]
-    javaSrc["Serviços Java"]
-    flyway["Flyway oficial"]
-    surefire["JUnit no surefire"]
-    javaSrc --> surefire
-    flyway --> db["calculadora-pro.db somente leitura"]
-    db --> surefire
-  end
-
-  subgraph lib ["Esta lib Python"]
-    fachada["consumo.py — nome Java"]
-    servico["serviços em snake_case"]
-    politica["arredondamento.py — única política numérica"]
-    fachada --> servico
-    servico --> politica
-    servico --> dbPy["mesmo calculadora-pro.db"]
-  end
-
-  db --> dbPy
-  surefire --> gate["scripts/equivalencia.sh"]
-  pytest["pytest com o nome classe.método"] --> gate
-  dbPy --> pytest
-
-  danfse["DANFSe em Go — fora desta lib"]
-```
+![Arquitetura](https://raw.githubusercontent.com/garusocruz/calculadora-rtc-regime-regular/590107262ceb189e048374412b82266ff4ecc40f/docs/arquitetura.png)
 
 O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o Flyway oficial e grava `calculadora-pro.db`. A lib abre esse arquivo em modo somente leitura. O caminho entra por `CALC_DB`. Sem a variável, ela procura `calculadora/db/calculadora-pro.db` a partir do diretório corrente.
 
