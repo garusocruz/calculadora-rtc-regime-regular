@@ -662,7 +662,14 @@ def operacao_from_json(payload: dict[str, Any]) -> OperacaoCalculadoraInput:
     def _dec(key: str, src: dict[str, Any]) -> Decimal | None:
         if key not in src or src[key] is None:
             return None
-        return Decimal(str(src[key]))
+        valor = src[key]
+        if isinstance(valor, Decimal):
+            return valor
+        if isinstance(valor, str):
+            return Decimal(valor)
+        if isinstance(valor, float):
+            return Decimal(str(valor))
+        return Decimal(str(valor))
 
     def _parse_data(raw: dict[str, Any]) -> date | None:
         if "dhFatoGerador" in raw and raw["dhFatoGerador"]:
@@ -756,3 +763,9 @@ def operacao_from_json(payload: dict[str, Any]) -> OperacaoCalculadoraInput:
         g_compra_gov=g_compra_obj,
         itens=itens,
     )
+
+
+def operacao_from_json_text(json_text: str) -> OperacaoCalculadoraInput:
+    import json
+
+    return operacao_from_json(json.loads(json_text, parse_float=Decimal))

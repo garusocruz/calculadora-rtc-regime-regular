@@ -6,7 +6,7 @@ Não é projeto oficial, produto homologado, certificado ou mantido pela Receita
 
 **Nossas** (esta implementação em Python, MIT, Copyright (c) 2026 Garuso Cruz)
 
-[![PyPI 0.3.0](https://img.shields.io/pypi/v/calculadora-rtc-regime-regular)](https://pypi.org/project/calculadora-rtc-regime-regular/)
+[![PyPI](https://img.shields.io/pypi/v/calculadora-rtc-regime-regular)](https://pypi.org/project/calculadora-rtc-regime-regular/)
 [![nossa licença MIT](https://img.shields.io/badge/nossa%20licen%C3%A7a-MIT%20Garuso%20Cruz-green)](LICENSE)
 [![cobertura Python 93,82%](https://img.shields.io/badge/cobertura%20Python-93%2C82%25-brightgreen)](#ultima-validacao)
 [![Cloud Build CI](https://img.shields.io/badge/Cloud%20Build-CI-blue?logo=googlecloud&logoColor=white)](cloudbuild.yaml)
@@ -60,6 +60,8 @@ O resultado depende do insumo, do `calculadora-pro.db` daquele pin e da cobertur
 | DANFSe | não |
 | Alíquota criada pela lib | não; quem chama informa base, alíquota e tratamento |
 | Parecer ou enquadramento tributário | não |
+| Ajuste tributário | não é calculado (`AjusteNaoImplementado` em `cbs_ibs.py`) |
+| Crédito presumido do item | fica vazio (`credito_presumido_operacao` e `credito_presumido_ibs_zfm` em `calculo_item.py`) |
 
 <a id="arquitetura"></a>
 
@@ -98,6 +100,8 @@ O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o F
 <a id="equivalencia"></a>
 
 ## Equivalência
+
+O gancho compara o estado do JUnit (passou ou falhou) com o pytest do mesmo caso; não é uma segunda conta numérica fora dessa suíte. Os percentuais da Última validação são do último run que gravou o README, não deste commit.
 
 O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O CI é o Cloud Build, sem workflow do GitHub Actions. A pull request dispara `calculadora-rtc-regime-regular-pr` e não publica. O push na `main` dispara `calculadora-rtc-regime-regular-main`. Depois do quality gate, o mesmo run faz o build da lib, grava o README com esse build e com esse run, publica no PyPI, abre a tag `vX.Y.Z` e abre a pull request que devolve o README para a `main`. O merge dessa pull request vê a versão já publicada e não repete o build.
 
@@ -171,7 +175,7 @@ Não se recoloca esse cálculo em `backends/faturae`. Não se publica no Artifac
 
 ## Instalação
 
-Python 3.12 ou superior. Dependência de runtime: `lxml`. O pacote público no PyPI é a `0.3.0`.
+Python 3.12 ou superior. Dependência de runtime: `lxml`. O pacote público no PyPI é a `0.4.1`.
 
 ```bash
 pip install calculadora-rtc-regime-regular
@@ -205,6 +209,11 @@ os.environ["CALC_DB"] = "/caminho/calculadora-pro.db"
 
 from calculadora_rtc_regime_regular.consumo import CalculadoraService
 from calculadora_rtc_regime_regular.observabilidade import operacao_from_json
+
+payload = {
+    "dhFatoGerador": "2026-06-15T12:00:00Z",
+    "itens": [{"cClassTrib": "000001", "baseCalculo": "100.00", "quantidade": "1.00"}],
+}
 
 operacao = operacao_from_json(payload)  # o mesmo objeto que o serviço Java recebe
 roc = CalculadoraService().calcularTributos(operacao)

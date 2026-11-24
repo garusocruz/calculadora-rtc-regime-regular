@@ -7,6 +7,10 @@ from calculadora_rtc_regime_regular import (
     PIN_OFICIAL_DATA,
     PIN_OFICIAL_VERSAO,
 )
+from calculadora_rtc_regime_regular.observabilidade import (
+    operacao_from_json,
+    operacao_from_json_text,
+)
 from calculadora_rtc_regime_regular.processamento_item import operacao_input_from_json_text
 from calculadora_rtc_regime_regular.versao_offline import VersaoOutput
 
@@ -19,6 +23,22 @@ def test_pin_oficial_e_o_calculador_1_7_2() -> None:
 
 def test_json_de_texto_preserva_decimal_que_o_float_perde() -> None:
     operacao = operacao_input_from_json_text(
+        '{"itens":[{"baseCalculo": 1234567890123456789.25}]}'
+    )
+    assert operacao.itens[0].base_calculo == Decimal("1234567890123456789.25")
+
+
+def test_operacao_from_json_nao_passa_str_nem_decimal_por_float() -> None:
+    texto = "1.25"
+    por_texto = operacao_from_json({"itens": [{"baseCalculo": texto}]})
+    assert por_texto.itens[0].base_calculo == Decimal(texto)
+    assert type(por_texto.itens[0].base_calculo) is Decimal
+
+    dec = Decimal("1.25")
+    por_decimal = operacao_from_json({"itens": [{"baseCalculo": dec}]})
+    assert por_decimal.itens[0].base_calculo is dec
+
+    operacao = operacao_from_json_text(
         '{"itens":[{"baseCalculo": 1234567890123456789.25}]}'
     )
     assert operacao.itens[0].base_calculo == Decimal("1234567890123456789.25")
