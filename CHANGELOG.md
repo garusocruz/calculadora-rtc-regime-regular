@@ -1,5 +1,16 @@
 # Mudanças
 
+## 0.4.2
+
+A `0.4.1` já está na `main` e no PyPI. Esta versão não republica esse número e deixa escrito que a lib não é produto da Receita.
+
+- O pin oficial fica no pacote: CalculadorTributo `1.7.2`, commit `f1eebd7`, 2026-11-19.
+- O JSON de entrada e o da versão remota leem número como `Decimal`.
+- O README distingue a fachada `consumo.py`, que não assina XML, de `xml_fiscal.py`, que gera e valida sem Sefin.
+- A esteira da `main` para se a versão já está no índice e a árvore não é a da tag.
+- O README diz que não é projeto oficial, homologado ou certificado.
+- A suíte do pin não substitui a legislação nem cenário que ela não executa.
+
 ## 0.3.0
 
 A `0.1.0` ficou fixada na `main` (`1b29594`) e o número não andou. A `0.3.0` lista o que entrou depois.

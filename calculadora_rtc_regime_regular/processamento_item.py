@@ -427,7 +427,7 @@ def operacao_input_from_json(payload: dict[str, Any]) -> OperacaoInput:
 def operacao_input_from_json_text(json_text: str) -> OperacaoInput:
     import json
 
-    return operacao_input_from_json(json.loads(json_text))
+    return operacao_input_from_json(json.loads(json_text, parse_float=Decimal))
 
 
 def item_operacao_input_to_json_dict(item: ItemOperacaoInput) -> dict[str, Any]:

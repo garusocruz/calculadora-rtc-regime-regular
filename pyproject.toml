@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "calculadora-rtc-regime-regular"
-version = "0.4.1"
-description = "Cálculo de CBS, IBS e Imposto Seletivo do regime regular. Transcrição em Python da calculadora pública da Receita Federal."
+version = "0.4.2"
+description = "Implementação independente, em Python, da calculadora de código aberto da Receita Federal para o regime regular. Não é produto oficial nem homologado."
 authors = ["Garuso Cruz <garustoec@gmail.com>"]
 license = "MIT"
 readme = "README.md"

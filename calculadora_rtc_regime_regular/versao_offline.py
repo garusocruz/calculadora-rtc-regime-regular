@@ -9,6 +9,7 @@ import re
 import urllib.parse
 from dataclasses import dataclass
 from datetime import date, timedelta
+from decimal import Decimal
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -21,6 +22,16 @@ SEMVER_PATTERN = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)")
 
 class RestClientException(Exception):
     """Equivalente a ``org.springframework.web.client.RestClientException``."""
+
+
+def _texto_json(valor: object) -> str | None:
+    if valor is None:
+        return None
+    if isinstance(valor, str):
+        return valor
+    if isinstance(valor, Decimal):
+        return format(valor, "f")
+    return str(valor)
 
 
 @dataclass(frozen=True)
@@ -39,12 +50,12 @@ class VersaoOutput:
                 "Error while extracting response for type VersaoOutput"
             )
         return cls(
-            versao_app=payload.get("versaoApp"),
-            descricao_versao_app=payload.get("descricaoVersaoApp"),
-            versao_db=payload.get("versaoDb"),
-            descricao_versao_db=payload.get("descricaoVersaoDb"),
-            data_versao_db=payload.get("dataVersaoDb"),
-            ambiente=payload.get("ambiente"),
+            versao_app=_texto_json(payload.get("versaoApp")),
+            descricao_versao_app=_texto_json(payload.get("descricaoVersaoApp")),
+            versao_db=_texto_json(payload.get("versaoDb")),
+            descricao_versao_db=_texto_json(payload.get("descricaoVersaoDb")),
+            data_versao_db=_texto_json(payload.get("dataVersaoDb")),
+            ambiente=_texto_json(payload.get("ambiente")),
         )
 
 
@@ -160,7 +171,7 @@ class VersaoOfflineService:
                     f"and content type [{content_type.split(';')[0]}]"
                 )
             try:
-                payload = json.loads(raw.decode())
+                payload = json.loads(raw.decode(), parse_float=Decimal)
             except json.JSONDecodeError as err:
                 raise RestClientException(
                     "Error while extracting response for type VersaoOutput "

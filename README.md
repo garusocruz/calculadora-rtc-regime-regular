@@ -1,10 +1,12 @@
 # calculadora-rtc-regime-regular
 
-Cálculo de CBS, IBS e Imposto Seletivo do regime regular, em Python. É uma releitura da calculadora Java da Receita Federal, validada contra a suíte de testes dela no commit pinado. Não é um fork: o código Java não entra neste repositório.
+Cálculo de CBS, IBS e Imposto Seletivo do regime regular, em Python. É uma implementação independente da calculadora Java que a Receita Federal publicou em código aberto, conferida contra a suíte de testes daquele projeto no commit pinado. Não é um fork: o código Java não entra neste repositório.
 
-**Nossas** (esta releitura em Python, MIT, Copyright (c) 2026 Garuso Cruz)
+Não é projeto oficial, produto homologado, certificado ou mantido pela Receita Federal do Brasil nem pelo Serpro. Não é parecer, orientação ou consultoria tributária. A suíte do pin não cobre cenário que ela não executa e não substitui a legislação.
 
-[![PyPI 0.4.1](https://img.shields.io/pypi/v/calculadora-rtc-regime-regular)](https://pypi.org/project/calculadora-rtc-regime-regular/)
+**Nossas** (esta implementação em Python, MIT, Copyright (c) 2026 Garuso Cruz)
+
+[![PyPI](https://img.shields.io/pypi/v/calculadora-rtc-regime-regular)](https://pypi.org/project/calculadora-rtc-regime-regular/)
 [![nossa licença MIT](https://img.shields.io/badge/nossa%20licen%C3%A7a-MIT%20Garuso%20Cruz-green)](LICENSE)
 [![cobertura Python 93,82%](https://img.shields.io/badge/cobertura%20Python-93%2C82%25-brightgreen)](#ultima-validacao)
 [![Cloud Build CI](https://img.shields.io/badge/Cloud%20Build-CI-blue?logo=googlecloud&logoColor=white)](cloudbuild.yaml)
@@ -21,10 +23,12 @@ As duas coberturas medem unidades diferentes: a nossa conta sentenças Python (m
 | --- | --- |
 | Fonte oficial | [ReceitaFederal/calculadora-rtc-regime-regular](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular) |
 | Commit pinado | [`f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4`](https://github.com/ReceitaFederal/calculadora-rtc-regime-regular/commit/f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4) |
+| Versão oficial do pin | CalculadorTributo `1.7.2`, commit de 2026-11-19 |
 | Licenças | [LICENSE](LICENSE) (nossa) e [LICENSE-RECEITA.md](LICENSE-RECEITA.md) (Receita, sobre o Java do pin) |
 
 ## Índice
 
+- [Limite de uso](#limite)
 - [Arquitetura](#arquitetura)
 - [Equivalência](#equivalencia)
 - [Última validação](#ultima-validacao)
@@ -35,9 +39,29 @@ As duas coberturas medem unidades diferentes: a nossa conta sentenças Python (m
 
 ## Fora do escopo
 
-A lib não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O índice público do PyPI tem a `0.4.1`. A release `v0.4.1` é essa versão no GitHub.
+A fachada `consumo.py` não sobe API, não emite nota, não assina XML e não chama a Sefin. O controller, o MockMvc e o HTTP 400 ficam no Java. `xml_fiscal.py` gera e valida o XML do pin, sem assinatura e sem Sefin, e não entra nessa fachada. Quem consome chama o serviço, com o mesmo nome de método da classe Java, em `calculadora_rtc_regime_regular.consumo`. O índice público do PyPI tem a `0.4.1`. A release `v0.4.1` é essa versão no GitHub.
 
 O DANFSe também fica de fora. O PDF da NFS-e é o módulo Go `danfse-service`, em https://github.com/ReceitaFederal/calculadora-rtc-gerador-danfse, pin `8d79e6b2f7fad6375340afcb51c85ed370c64a14`.
+
+<a id="limite"></a>
+
+## Limite de uso
+
+A política numérica é a do pin: a conta interna é exata, cada número publicado é arredondado uma vez e esse número entra na conta seguinte. Só `arredondamento.py` arredonda. O texto JSON entra com `Decimal`. A conta não usa `float`. Quem chama informa base, alíquota e tratamento. O cálculo não cria alíquota.
+
+O resultado depende do insumo, do `calculadora-pro.db` daquele pin e da cobertura da suíte. Uso em documento fiscal exige conferência independente. A publicação do código pela Receita não homologa esta implementação.
+
+| O que | Nesta versão |
+| --- | --- |
+| Casos da suíte Java do pin | comparados; ver [Última validação](#ultima-validacao) |
+| Arredondamento | uma vez, no número publicado, só em `arredondamento.py` |
+| API, nota e HTTP da fachada | não |
+| XML | `xml_fiscal.py` gera e valida; não assina e não chama a Sefin |
+| DANFSe | não |
+| Alíquota criada pela lib | não; quem chama informa base, alíquota e tratamento |
+| Parecer ou enquadramento tributário | não |
+| Ajuste tributário | não é calculado (`AjusteNaoImplementado` em `cbs_ibs.py`) |
+| Crédito presumido do item | fica vazio (`credito_presumido_operacao` e `credito_presumido_ibs_zfm` em `calculo_item.py`) |
 
 <a id="arquitetura"></a>
 
@@ -76,6 +100,8 @@ O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o F
 <a id="equivalencia"></a>
 
 ## Equivalência
+
+O gancho compara o estado do JUnit (passou ou falhou) com o pytest do mesmo caso; não é uma segunda conta numérica fora dessa suíte. Os percentuais da Última validação são do último run que gravou o README, não deste commit.
 
 O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O CI é o Cloud Build, sem workflow do GitHub Actions. A pull request dispara `calculadora-rtc-regime-regular-pr` e não publica. O push na `main` dispara `calculadora-rtc-regime-regular-main`. Depois do quality gate, o mesmo run faz o build da lib, grava o README com esse build e com esse run, publica no PyPI, abre a tag `vX.Y.Z` e abre a pull request que devolve o README para a `main`. O merge dessa pull request vê a versão já publicada e não repete o build.
 
@@ -184,6 +210,11 @@ os.environ["CALC_DB"] = "/caminho/calculadora-pro.db"
 from calculadora_rtc_regime_regular.consumo import CalculadoraService
 from calculadora_rtc_regime_regular.observabilidade import operacao_from_json
 
+payload = {
+    "dhFatoGerador": "2026-06-15T12:00:00Z",
+    "itens": [{"cClassTrib": "000001", "baseCalculo": "100.00", "quantidade": "1.00"}],
+}
+
 operacao = operacao_from_json(payload)  # o mesmo objeto que o serviço Java recebe
 roc = CalculadoraService().calcularTributos(operacao)
 ```
@@ -211,7 +242,7 @@ O código Java oficial não é copiado para este git. A licença dele vale para 
 
 | Obra | Licença | Arquivo |
 | --- | --- | --- |
-| Esta releitura em Python | MIT, Copyright (c) 2026 Garuso Cruz | [LICENSE](LICENSE) |
+| Esta implementação em Python | MIT, Copyright (c) 2026 Garuso Cruz | [LICENSE](LICENSE) |
 | Calculadora Java da Receita Federal, commit `f1eebd7ce3157423b1a6aaca7dc1d6c3395452c4` | MIT, Copyright (c) 2026 Receita Federal do Brasil | [LICENSE-RECEITA.md](LICENSE-RECEITA.md) |
 
-O texto MIT da Receita exige que o aviso de copyright e a permissão acompanhem cópias substanciais daquela obra. A releitura conserva esse aviso, e a licença desta lib continua sendo a MIT de Garuso Cruz.
+O texto MIT da Receita exige que o aviso de copyright e a permissão acompanhem cópias substanciais daquela obra. Esta implementação conserva esse aviso. A licença desta lib continua sendo a MIT de Garuso Cruz. A MIT da Receita não transfere a titularidade do código dela.
