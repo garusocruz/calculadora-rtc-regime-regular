@@ -1,4 +1,5 @@
 .cache/
+calculadora_rtc_regime_regular/data/calculadora-pro.db
 .ci/
 .venv/
 __pycache__/

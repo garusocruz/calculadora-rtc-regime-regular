@@ -69,7 +69,7 @@ O resultado depende do insumo, do `calculadora-pro.db` daquele pin e da cobertur
 
 ![Arquitetura](https://raw.githubusercontent.com/garusocruz/calculadora-rtc-regime-regular/590107262ceb189e048374412b82266ff4ecc40f/docs/arquitetura.png)
 
-O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o Flyway oficial e grava `calculadora-pro.db`. A lib abre esse arquivo em modo somente leitura. O caminho entra por `CALC_DB`. Sem a variável, ela procura `calculadora/db/calculadora-pro.db` a partir do diretório corrente.
+O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o Flyway oficial e grava `calculadora-pro.db`. Depois da equivalência, o build copia esse sqlite para dentro do pacote e só então gera o wheel. A lib abre o arquivo em modo somente leitura. `CALC_DB` vence. Sem a variável, ela abre o sqlite empacotado. Fora do pacote, procura `calculadora/db/calculadora-pro.db` a partir do diretório corrente.
 
 <a id="equivalencia"></a>
 
@@ -77,7 +77,7 @@ O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o F
 
 O gancho compara o estado do JUnit (passou ou falhou) com o pytest do mesmo caso; não é uma segunda conta numérica fora dessa suíte. Os percentuais da Última validação são do último run que gravou o README, não deste commit.
 
-O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O CI é o Cloud Build, sem workflow do GitHub Actions. A pull request dispara `calculadora-rtc-regime-regular-pr` e não publica. O push na `main` dispara `calculadora-rtc-regime-regular-main`. Depois do quality gate, o mesmo run faz o build da lib, grava o README com esse build e com esse run, publica no PyPI, abre a tag `vX.Y.Z` e abre a pull request que devolve o README para a `main`. O merge dessa pull request vê a versão já publicada e não repete o build.
+O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O CI é o Cloud Build, sem workflow do GitHub Actions. A pull request dispara `calculadora-rtc-regime-regular-pr` e não publica. O push na `main` dispara `calculadora-rtc-regime-regular-main`. Depois do quality gate, o mesmo run copia o sqlite da equivalência para dentro do pacote, faz o build da lib, grava o README com esse build e com esse run, publica no PyPI, abre a tag `vX.Y.Z` e abre a pull request que devolve o README para a `main`. O merge dessa pull request vê a versão já publicada e não repete o build.
 
 <!-- release-runs:start -->
 Release `v0.4.3` em 2026-11-24. Build [`682ef355-fffb-4e2b-b64c-4c991054598d`](https://console.cloud.google.com/cloud-build/builds;region=us-central1/682ef355-fffb-4e2b-b64c-4c991054598d?project=lynko-508200) no commit `985ea3921ed333a78097e7dd2b1704529a8cad33`.
