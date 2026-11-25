@@ -95,7 +95,7 @@ flowchart TB
   danfse["DANFSe em Go — fora desta lib"]
 ```
 
-O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o Flyway oficial e grava `calculadora-pro.db`. A lib abre esse arquivo em modo somente leitura. O caminho entra por `CALC_DB`. Sem a variável, ela procura `calculadora/db/calculadora-pro.db` a partir do diretório corrente.
+O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o Flyway oficial e grava `calculadora-pro.db`. Depois da equivalência, o build copia esse sqlite para dentro do pacote e só então gera o wheel. A lib abre o arquivo em modo somente leitura. `CALC_DB` vence. Sem a variável, ela abre o sqlite empacotado. Fora do pacote, procura `calculadora/db/calculadora-pro.db` a partir do diretório corrente.
 
 <a id="equivalencia"></a>
 
@@ -103,7 +103,7 @@ O banco não é gerado pela lib. O script de equivalência baixa o pin, roda o F
 
 O gancho compara o estado do JUnit (passou ou falhou) com o pytest do mesmo caso; não é uma segunda conta numérica fora dessa suíte. Os percentuais da Última validação são do último run que gravou o README, não deste commit.
 
-O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O CI é o Cloud Build, sem workflow do GitHub Actions. A pull request dispara `calculadora-rtc-regime-regular-pr` e não publica. O push na `main` dispara `calculadora-rtc-regime-regular-main`. Depois do quality gate, o mesmo run faz o build da lib, grava o README com esse build e com esse run, publica no PyPI, abre a tag `vX.Y.Z` e abre a pull request que devolve o README para a `main`. O merge dessa pull request vê a versão já publicada e não repete o build.
+O gancho `scripts/hooks/pre-push.sh` chama `scripts/equivalencia.sh`. O CI é o Cloud Build, sem workflow do GitHub Actions. A pull request dispara `calculadora-rtc-regime-regular-pr` e não publica. O push na `main` dispara `calculadora-rtc-regime-regular-main`. Depois do quality gate, o mesmo run copia o sqlite da equivalência para dentro do pacote, faz o build da lib, grava o README com esse build e com esse run, publica no PyPI, abre a tag `vX.Y.Z` e abre a pull request que devolve o README para a `main`. O merge dessa pull request vê a versão já publicada e não repete o build.
 
 <!-- release-runs:start -->
 Release `v0.4.1` em 2026-11-23. Build [`f13fed49-e3dc-4837-97aa-0856fddd4e8e`](https://console.cloud.google.com/cloud-build/builds;region=us-central1/f13fed49-e3dc-4837-97aa-0856fddd4e8e?project=lynko-508200) no commit `6349c5f9bc996d926fda0f968ba15572824aa280`.
